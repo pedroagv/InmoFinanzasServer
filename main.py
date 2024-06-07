@@ -7,7 +7,7 @@ app = FastAPI()
 
 @app.get('/')
 def hello_world():
-    return '¡Hola, mundo desde el servidor! ajaj'
+    return '¡Primera deploy en Python'
 
 @app.get('/productos')
 def get_productos():
