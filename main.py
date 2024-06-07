@@ -1,7 +1,16 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
 app = FastAPI()
+
+## Permitir cualquier origen (*), cualquier método y cualquier header en desarrollo
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # app = Flask(__name__)
 
@@ -229,7 +238,7 @@ def get_productos():
                 }
                 ]               
         },{
-            "id": 1,
+            "id": 7,
             "nombre": "Arriendo Apartamento en el centro",
             "ubicacion": "Ciudad A",
             "precio": 120000,
@@ -266,7 +275,7 @@ def get_productos():
             ]              
         },
         {
-            "id": 2,
+            "id": 8,
             "nombre": "Casa en las afueras",
             "ubicacion": "Ciudad B",
             "precio": 250000,
@@ -302,7 +311,7 @@ def get_productos():
             ]             
         },
         {
-            "id": 3,
+            "id": 9,
             "nombre": "Arriendo Estudio cerca del mar",
             "ubicacion": "Ciudad C",
             "precio": 95000,
@@ -338,7 +347,7 @@ def get_productos():
                 ]               
         },
         {
-            "id": 4,
+            "id": 10,
             "nombre": "Hermosa casa Fontibon",
             "ubicacion": "Ciudad Bogota",
             "precio": 100000,
@@ -374,7 +383,7 @@ def get_productos():
                 ]               
         },
         {
-            "id": 5,
+            "id": 11,
             "nombre": "Arriendo Hermosa casa Frente al lago",
             "ubicacion": "Ciudad Bogota",
             "precio": 100000,
@@ -410,7 +419,7 @@ def get_productos():
                 ]               
         },
         {
-            "id": 6,
+            "id": 12,
             "nombre": "Hermosa casa verde frente al pasto",
             "ubicacion": "Ciudad Bogota",
             "precio": 50000,
