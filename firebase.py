@@ -6,4 +6,4 @@ def get_firestore_client():
         cred = credentials.Certificate('inmofinanzafb-firebase.json')
         firebase_admin.initialize_app(cred)
     return firestore.client()
-    
+        
