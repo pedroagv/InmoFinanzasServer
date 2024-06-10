@@ -3,3 +3,4 @@ inmofinanzafb-firebase.json
 
 # .gitignore
 .env
+firebase.py
