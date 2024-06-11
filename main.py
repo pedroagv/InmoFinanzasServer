@@ -1,14 +1,11 @@
 from fastapi import FastAPI, File, UploadFile
-from flask import Flask, jsonify
-
-# from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
-# from fastapi.responses import JSONResponse
 from app.api.endpoints import productos, categorias
 from typing import List
 import os
 
+UPLOAD_FOLDER = 'uploads/'
 
 app = FastAPI()
 
@@ -31,8 +28,6 @@ def hello_world():
     return '¡Primera deploy en Python'
 
 
-UPLOAD_FOLDER = 'uploads/'
-
 @app.post("/upload")
 async def upload_files(files: List[UploadFile] = File(...)):
     file_paths = []
@@ -45,17 +40,6 @@ async def upload_files(files: List[UploadFile] = File(...)):
         file_paths.append(file_path)
     return JSONResponse(content={"message": "Files uploaded successfully", "file_paths": file_paths})
 
-
-@app.route('/get_files')
-def get_files():
-    files = os.listdir(UPLOAD_FOLDER)
-    return jsonify(files)
-
-
-if __name__ == '__main__':
+if __name__ == '__main__': 
     import uvicorn
-    # uvicorn.run(app, host="127.0.0.1", port=8000)
     uvicorn.run(app, host="127.0.0.1", port=8000)
-
-# if __name__ == '__main__':
-#     app.run(debug=True)
