@@ -1,4 +1,6 @@
 from fastapi import FastAPI, File, UploadFile
+from flask import Flask, jsonify
+
 # from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
@@ -42,6 +44,12 @@ async def upload_files(files: List[UploadFile] = File(...)):
             f.write(file.file.read())
         file_paths.append(file_path)
     return JSONResponse(content={"message": "Files uploaded successfully", "file_paths": file_paths})
+
+
+@app.route('/get_files')
+def get_files():
+    files = os.listdir(UPLOAD_FOLDER)
+    return jsonify(files)
 
 if __name__ == "__main__":
     import uvicorn
