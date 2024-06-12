@@ -38,7 +38,11 @@ async def upload_files(files: List[UploadFile] = File(...)):
         with open(file_path, "wb") as f:
             f.write(file.file.read())
         file_paths.append(file_path)
-    return JSONResponse(content={"message": "Files uploaded successfully", "file_paths": file_paths})
+    # Construir las URL de las imágenes subidas
+    base_url = "https://inmofinanzasserver.onrender.com/upload/" 
+    image_urls = [base_url + os.path.basename(file_path) for file_path in file_paths]
+    return JSONResponse(content={"message": "Files uploaded successfully", "file_paths": file_paths, "image_urls": image_urls})
+
 
 if __name__ == '__main__': 
     import uvicorn
