@@ -1,445 +1,66 @@
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import JSONResponse
-# from firebase_admin import firestore
-# from ..core.firebase import get_firestore_client
+from typing import List, Dict, Any
+from firebase import get_firestore_client
 
 router = APIRouter()
 
 @router.get('/productos')
 def get_productos():
-    productos = [
-        {
-            "id": 1,
-            "nombre": "Arriendo Apartamento en el centro",
-            "ubicacion": "Ciudad A",
-            "precio": 120000,
-            "descripcion": "Un hermoso apartamento en el corazón de la ciudad.",
-            "categoria": "Arriendos",            
-            "metros_cuadrados": 80,
-            "destacado":True,
-            "imagenes":[
-                {
-                   "src": "https://picsum.photos/800/400?random=4",
-                   "alt": "...",
-                   "label": "First slide label",
-                   "content": "Some representative placeholder content for the first slide."
-                },
-                {
-                    "src": "https://picsum.photos/800/400?random=3",
-                    "alt": "...",
-                    "label": "First slide label",
-                    "content": "Some representative placeholder content for the first slide."
-                    },
-                {
-                   "src": "https://picsum.photos/800/400?random=2",
-                   "alt": "...",
-                   "label": "First slide label",
-                   "content": "Some representative placeholder content for the first slide."
-                }
-                ,
-                {
-                   "src": "https://picsum.photos/800/400?random=1",
-                   "alt": "...",
-                   "label": "First slide label",
-                   "content": "Some representative placeholder content for the first slide."
-                }
-            ]              
-        },
-        {
-            "id": 2,
-            "nombre": "Casa en las afueras",
-            "ubicacion": "Ciudad B",
-            "precio": 250000,
-            "descripcion": "Una casa espaciosa con un gran jardín.",
-            "categoria": "Venta",
-            "metros_cuadrados": 200,
-            "imagenes":[
-                {
-                   "src": "https://picsum.photos/800/400?random=4",
-                   "alt": "...",
-                   "label": "First slide label",
-                   "content": "Some representative placeholder content for the first slide."
-                },
-                {
-                    "src": "https://picsum.photos/800/400?random=3",
-                    "alt": "...",
-                    "label": "First slide label",
-                    "content": "Some representative placeholder content for the first slide."
-                    },
-                {
-                   "src": "https://picsum.photos/800/400?random=2",
-                   "alt": "...",
-                   "label": "First slide label",
-                   "content": "Some representative placeholder content for the first slide."
-                }
-                ,
-                {
-                   "src": "https://picsum.photos/800/400?random=1",
-                   "alt": "...",
-                   "label": "First slide label",
-                   "content": "Some representative placeholder content for the first slide."
-                }
-            ]             
-        },
-        {
-            "id": 3,
-            "nombre": "Arriendo Estudio cerca del mar",
-            "ubicacion": "Ciudad C",
-            "precio": 95000,
-            "descripcion": "Un acogedor estudio a pocos metros de la playa.",
-            "categoria": "Arriendos",
-            "metros_cuadrados": 45,
-            "imagenes":[
-                   {
-                   "src": "https://picsum.photos/800/400?random=4",
-                   "alt": "...",
-                   "label": "First slide label",
-                   "content": "Some representative placeholder content for the first slide."
-                },
-                {
-                    "src": "https://picsum.photos/800/400?random=3",
-                    "alt": "...",
-                    "label": "First slide label",
-                    "content": "Some representative placeholder content for the first slide."
-                    },
-                {
-                   "src": "https://picsum.photos/800/400?random=2",
-                   "alt": "...",
-                   "label": "First slide label",
-                   "content": "Some representative placeholder content for the first slide."
-                }
-                ,
-                {
-                   "src": "https://picsum.photos/800/400?random=1",
-                   "alt": "...",
-                   "label": "First slide label",
-                   "content": "Some representative placeholder content for the first slide."
-                }
-                ]               
-        },
-        {
-            "id": 4,
-            "nombre": "Hermosa casa Fontibon",
-            "ubicacion": "Ciudad Bogota",
-            "precio": 100000,
-            "descripcion": "una hermosa casa en fontibon muy economica.",
-            "categoria": "Ventas",
-            "metros_cuadrados": 49,
-            "imagenes":[
-                    {
-                   "src": "https://picsum.photos/800/400?random=4",
-                   "alt": "...",
-                   "label": "First slide label",
-                   "content": "Some representative placeholder content for the first slide."
-                },
-                {
-                    "src": "https://picsum.photos/800/400?random=3",
-                    "alt": "...",
-                    "label": "First slide label",
-                    "content": "Some representative placeholder content for the first slide."
-                    },
-                {
-                   "src": "https://picsum.photos/800/400?random=2",
-                   "alt": "...",
-                   "label": "First slide label",
-                   "content": "Some representative placeholder content for the first slide."
-                }
-                ,
-                {
-                   "src": "https://picsum.photos/800/400?random=1",
-                   "alt": "...",
-                   "label": "First slide label",
-                   "content": "Some representative placeholder content for the first slide."
-                }
-                ]               
-        },
-        {
-            "id": 5,
-            "nombre": "Arriendo Hermosa casa Frente al lago",
-            "ubicacion": "Ciudad Bogota",
-            "precio": 100000,
-            "descripcion": "una hermosa casa en engativa muy linda y economica.",
-            "categoria": "Arriendos",
-            "metros_cuadrados": 409,
-            "imagenes":[
-                    {
-                   "src": "https://picsum.photos/800/400?random=4",
-                   "alt": "...",
-                   "label": "First slide label",
-                   "content": "Some representative placeholder content for the first slide."
-                },
-                {
-                    "src": "https://picsum.photos/800/400?random=3",
-                    "alt": "...",
-                    "label": "First slide label",
-                    "content": "Some representative placeholder content for the first slide."
-                    },
-                {
-                   "src": "https://picsum.photos/800/400?random=2",
-                   "alt": "...",
-                   "label": "First slide label",
-                   "content": "Some representative placeholder content for the first slide."
-                }
-                ,
-                {
-                   "src": "https://picsum.photos/800/400?random=1",
-                   "alt": "...",
-                   "label": "First slide label",
-                   "content": "Some representative placeholder content for the first slide."
-                }
-                ]               
-        },
-        {
-            "id": 6,
-            "nombre": "Hermosa casa verde frente al pasto",
-            "ubicacion": "Ciudad Bogota",
-            "precio": 50000,
-            "descripcion": "Una hermosa casa en engativa muy linda y economica.",
-            "categoria": "Permuta",
-            "metros_cuadrados": 409,
-            "imagenes":[
-                    {
-                   "src": "https://picsum.photos/800/400?random=4",
-                   "alt": "...",
-                   "label": "First slide label",
-                   "content": "Some representative placeholder content for the first slide."
-                },
-                {
-                    "src": "https://picsum.photos/800/400?random=3",
-                    "alt": "...",
-                    "label": "First slide label",
-                    "content": "Some representative placeholder content for the first slide."
-                    },
-                {
-                   "src": "https://picsum.photos/800/400?random=2",
-                   "alt": "...",
-                   "label": "First slide label",
-                   "content": "Some representative placeholder content for the first slide."
-                }
-                ,
-                {
-                   "src": "https://picsum.photos/800/400?random=1",
-                   "alt": "...",
-                   "label": "First slide label",
-                   "content": "Some representative placeholder content for the first slide."
-                }
-                ]               
-        },{
-            "id": 7,
-            "nombre": "Arriendo Apartamento en el centro",
-            "ubicacion": "Ciudad A",
-            "precio": 120000,
-            "descripcion": "Un hermoso apartamento en el corazón de la ciudad.",
-            "categoria": "Arriendos",            
-            "metros_cuadrados": 80,
-            "destacado":True,
-            "imagenes":[
-                {
-                   "src": "https://picsum.photos/800/400?random=4",
-                   "alt": "...",
-                   "label": "First slide label",
-                   "content": "Some representative placeholder content for the first slide."
-                },
-                {
-                    "src": "https://picsum.photos/800/400?random=3",
-                    "alt": "...",
-                    "label": "First slide label",
-                    "content": "Some representative placeholder content for the first slide."
-                    },
-                {
-                   "src": "https://picsum.photos/800/400?random=2",
-                   "alt": "...",
-                   "label": "First slide label",
-                   "content": "Some representative placeholder content for the first slide."
-                }
-                ,
-                {
-                   "src": "https://picsum.photos/800/400?random=1",
-                   "alt": "...",
-                   "label": "First slide label",
-                   "content": "Some representative placeholder content for the first slide."
-                }
-            ]              
-        },
-        {
-            "id": 8,
-            "nombre": "Casa en las afueras",
-            "ubicacion": "Ciudad B",
-            "precio": 250000,
-            "descripcion": "Una casa espaciosa con un gran jardín.",
-            "categoria": "Venta",
-            "metros_cuadrados": 200,
-            "imagenes":[
-                {
-                   "src": "https://picsum.photos/800/400?random=4",
-                   "alt": "...",
-                   "label": "First slide label",
-                   "content": "Some representative placeholder content for the first slide."
-                },
-                {
-                    "src": "https://picsum.photos/800/400?random=3",
-                    "alt": "...",
-                    "label": "First slide label",
-                    "content": "Some representative placeholder content for the first slide."
-                    },
-                {
-                   "src": "https://picsum.photos/800/400?random=2",
-                   "alt": "...",
-                   "label": "First slide label",
-                   "content": "Some representative placeholder content for the first slide."
-                }
-                ,
-                {
-                   "src": "https://picsum.photos/800/400?random=1",
-                   "alt": "...",
-                   "label": "First slide label",
-                   "content": "Some representative placeholder content for the first slide."
-                }
-            ]             
-        },
-        {
-            "id": 9,
-            "nombre": "Arriendo Estudio cerca del mar",
-            "ubicacion": "Ciudad C",
-            "precio": 95000,
-            "descripcion": "Un acogedor estudio a pocos metros de la playa.",
-            "categoria": "Arriendos",
-            "metros_cuadrados": 45,
-            "imagenes":[
-                   {
-                   "src": "https://picsum.photos/800/400?random=4",
-                   "alt": "...",
-                   "label": "First slide label",
-                   "content": "Some representative placeholder content for the first slide."
-                },
-                {
-                    "src": "https://picsum.photos/800/400?random=3",
-                    "alt": "...",
-                    "label": "First slide label",
-                    "content": "Some representative placeholder content for the first slide."
-                    },
-                {
-                   "src": "https://picsum.photos/800/400?random=2",
-                   "alt": "...",
-                   "label": "First slide label",
-                   "content": "Some representative placeholder content for the first slide."
-                }
-                ,
-                {
-                   "src": "https://picsum.photos/800/400?random=1",
-                   "alt": "...",
-                   "label": "First slide label",
-                   "content": "Some representative placeholder content for the first slide."
-                }
-                ]               
-        },
-        {
-            "id": 10,
-            "nombre": "Hermosa casa Fontibon",
-            "ubicacion": "Ciudad Bogota",
-            "precio": 100000,
-            "descripcion": "una hermosa casa en fontibon muy economica.",
-            "categoria": "Ventas",
-            "metros_cuadrados": 49,
-            "imagenes":[
-                    {
-                   "src": "https://picsum.photos/800/400?random=4",
-                   "alt": "...",
-                   "label": "First slide label",
-                   "content": "Some representative placeholder content for the first slide."
-                },
-                {
-                    "src": "https://picsum.photos/800/400?random=3",
-                    "alt": "...",
-                    "label": "First slide label",
-                    "content": "Some representative placeholder content for the first slide."
-                    },
-                {
-                   "src": "https://picsum.photos/800/400?random=2",
-                   "alt": "...",
-                   "label": "First slide label",
-                   "content": "Some representative placeholder content for the first slide."
-                }
-                ,
-                {
-                   "src": "https://picsum.photos/800/400?random=1",
-                   "alt": "...",
-                   "label": "First slide label",
-                   "content": "Some representative placeholder content for the first slide."
-                }
-                ]               
-        },
-        {
-            "id": 11,
-            "nombre": "Arriendo Hermosa casa Frente al lago",
-            "ubicacion": "Ciudad Bogota",
-            "precio": 100000,
-            "descripcion": "una hermosa casa en engativa muy linda y economica.",
-            "categoria": "Arriendos",
-            "metros_cuadrados": 409,
-            "imagenes":[
-                    {
-                   "src": "https://picsum.photos/800/400?random=4",
-                   "alt": "...",
-                   "label": "First slide label",
-                   "content": "Some representative placeholder content for the first slide."
-                },
-                {
-                    "src": "https://picsum.photos/800/400?random=3",
-                    "alt": "...",
-                    "label": "First slide label",
-                    "content": "Some representative placeholder content for the first slide."
-                    },
-                {
-                   "src": "https://picsum.photos/800/400?random=2",
-                   "alt": "...",
-                   "label": "First slide label",
-                   "content": "Some representative placeholder content for the first slide."
-                }
-                ,
-                {
-                   "src": "https://picsum.photos/800/400?random=1",
-                   "alt": "...",
-                   "label": "First slide label",
-                   "content": "Some representative placeholder content for the first slide."
-                }
-                ]               
-        },
-        {
-            "id": 12,
-            "nombre": "Hermosa casa verde frente al pasto",
-            "ubicacion": "Ciudad Bogota",
-            "precio": 50000,
-            "descripcion": "Una hermosa casa en engativa muy linda y economica.",
-            "categoria": "Permuta",
-            "metros_cuadrados": 409,
-            "imagenes":[
-                    {
-                   "src": "https://picsum.photos/800/400?random=4",
-                   "alt": "...",
-                   "label": "First slide label",
-                   "content": "Some representative placeholder content for the first slide."
-                },
-                {
-                    "src": "https://picsum.photos/800/400?random=3",
-                    "alt": "...",
-                    "label": "First slide label",
-                    "content": "Some representative placeholder content for the first slide."
-                    },
-                {
-                   "src": "https://picsum.photos/800/400?random=2",
-                   "alt": "...",
-                   "label": "First slide label",
-                   "content": "Some representative placeholder content for the first slide."
-                }
-                ,
-                {
-                   "src": "https://picsum.photos/800/400?random=1",
-                   "alt": "...",
-                   "label": "First slide label",
-                   "content": "Some representative placeholder content for the first slide."
-                }
-                ]               
-        }
-    ]
-    return JSONResponse(content=productos)
+    try:
+        db = get_firestore_client()
+        productos_ref = db.collection('Productos')
+        docs = productos_ref.stream()
+
+        productos = []
+        for doc in docs:
+            producto = doc.to_dict()
+            producto['id'] = doc.id
+            productos.append(producto)
+
+        return JSONResponse(content=productos)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@router.post('/productos')
+def add_producto(productos: List[Dict[str, Any]]):
+    try:
+        db = get_firestore_client()
+        productos_ref = db.collection('Productos')
+
+        for producto in productos:
+            productos_ref.add(producto)
+
+        return JSONResponse(content={"message": "Products added successfully!"})
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@router.put('/productos/{producto_id}')
+def update_producto(producto_id: str, producto: Dict[str, Any]):
+    try:
+        db = get_firestore_client()
+        producto_ref = db.collection('Productos').document(producto_id)
+
+        # Verificar si el documento existe antes de intentar actualizarlo
+        if not producto_ref.get().exists:
+            raise HTTPException(status_code=404, detail="Product not found")
+
+        producto_ref.update(producto)
+        return JSONResponse(content={"message": "Product updated successfully!"})
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@router.delete('/productos/{producto_id}')
+def delete_producto(producto_id: str):
+    try:
+        db = get_firestore_client()
+        producto_ref = db.collection('Productos').document(producto_id)
+
+        # Verificar si el documento existe antes de intentar eliminarlo
+        if not producto_ref.get().exists:
+            raise HTTPException(status_code=404, detail="Product not found")
+
+        producto_ref.delete()
+        return JSONResponse(content={"message": "Product deleted successfully!"})
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
