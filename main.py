@@ -45,15 +45,18 @@ async def get_image(folder: str, filename: str):
 
 
 @app.post("/upload")
-async def upload_files(files: List[UploadFile] = File(...)):
+async def upload_files(folder: str, files: List[UploadFile] = File(...)):
+    folder_path = os.path.join(UPLOAD_FOLDER, folder)
+    if not os.path.exists(folder_path):
+        os.makedirs(folder_path)
+    
     file_paths = []
-    if not os.path.exists(UPLOAD_FOLDER):
-        os.makedirs(UPLOAD_FOLDER)
     for file in files:
-        file_path = os.path.join(UPLOAD_FOLDER, file.filename)
+        file_path = os.path.join(folder_path, file.filename)
         with open(file_path, "wb") as f:
             f.write(file.file.read())
         file_paths.append(file_path)
+    
     return JSONResponse(content={"message": "Files uploaded successfully", "file_paths": file_paths})
 
 if __name__ == '__main__': 
