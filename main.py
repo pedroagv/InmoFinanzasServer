@@ -4,6 +4,7 @@ from fastapi.responses import JSONResponse
 from app.api.endpoints import productos, categorias
 from fastapi.responses import FileResponse
 from typing import List
+from pathlib import Path
 import os
 
 UPLOAD_FOLDER = 'uploads/'
@@ -28,15 +29,19 @@ app.include_router(categorias.router)
 def hello_world():
     return '¡Primera deploy en Python'
 
-@app.get("/uploads/{filename}")
-async def get_image(filename: str):
+@app.get("/uploads/{folder}/{filename}")
+async def get_image(folder: str, filename: str):
     try:
-        # La ruta completa de la imagen
-        file_path = f"uploads/{filename}"
+        UPLOADS_DIR = Path("uploads")
+        # Construir la ruta completa de la imagen
+        file_path = UPLOADS_DIR / folder / filename
+        # Verificar si el archivo existe
+        if not file_path.is_file():
+            return "Imagen no encontrada", 404
         # Devolver la imagen
         return FileResponse(file_path)
     except Exception as e:
-        return str(e), 404
+        return str(e), 500
 
 
 @app.post("/upload")
