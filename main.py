@@ -43,8 +43,6 @@ async def get_image(folder: str, filename: str):
     except Exception as e:
         return str(e), 500
 
-
-
 @app.post("/upload")
 async def upload_files(folder: str, files: List[UploadFile] = File(...)):
     folder_path = os.path.join(UPLOAD_FOLDER, folder)
@@ -59,7 +57,6 @@ async def upload_files(folder: str, files: List[UploadFile] = File(...)):
         file_paths.append(file_path)
     
     return JSONResponse(content={"message": "Files uploaded successfully", "file_paths": file_paths})
-
 
 if __name__ == '__main__': 
     import uvicorn
