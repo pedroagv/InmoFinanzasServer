@@ -29,6 +29,13 @@ def add_producto(productos: List[Dict[str, Any]]):
         productos_ref = db.collection('Productos')
 
         for producto in productos:
+            if 'imagenes' not in producto or len(producto['imagenes']) == 0:
+                producto['imagenes'] = [
+                    {
+                        "src": "https://inmofinanzasserver.onrender.com/uploads/default/placeholder.svg"
+                    }
+                ]
+                
             productos_ref.add(producto)
 
         return JSONResponse(content={"message": "Products added successfully!"})
