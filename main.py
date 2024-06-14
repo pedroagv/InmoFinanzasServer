@@ -27,7 +27,6 @@ app.include_router(archivos.router)
 
 # app = Flask(__name__)
 
-
 @app.get('/')
 def hello_world():
     # Obtener la hora actual
