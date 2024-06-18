@@ -1,10 +1,27 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Path
 from fastapi.responses import JSONResponse
 from typing import List, Dict, Any
 from firebase import get_firestore_client
 
 router = APIRouter()
 
+@router.get('/productos/{producto_id}')
+def get_producto(producto_id: str = Path(..., description="ID del producto a obtener")):
+    try:
+        db = get_firestore_client()
+        producto_ref = db.collection('Productos').document(producto_id)
+
+        # Verificar si el producto existe en la base de datos
+        if not producto_ref.get().exists:
+            raise HTTPException(status_code=404, detail="Product not found")
+
+        producto = producto_ref.get().to_dict()
+        producto['id'] = producto_ref.id
+
+        return JSONResponse(content=producto)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    
 @router.get('/productos')
 def get_productos():
     try:
