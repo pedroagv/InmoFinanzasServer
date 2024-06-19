@@ -86,18 +86,24 @@ async def delete_image(folder: str, filename: str):
     Producto_ref = db.collection('Productos').document(folder)
     Producto = Producto_ref.get()
 
-    if not Producto.exists:
-        raise HTTPException(status_code=404, detail="El producto no existe")
+    # if not Producto.exists:
+    #     raise HTTPException(status_code=404, detail="El producto no existe")
 
     folder_path = os.path.join(UPLOAD_FOLDER, folder)
     file_path = os.path.join(folder_path, filename)
 
     if os.path.exists(file_path):
         os.remove(file_path)
-    else:
-        raise HTTPException(status_code=404, detail="File not found")
+    # else:
+    #     raise HTTPException(status_code=404, detail="File not found")
 
-    imagenes = [img for img in Producto.to_dict().get('imagenes', []) if img['src'] != BASE_URL_API + '/' + file_path]
+    # imagenes = [img for img in Producto.to_dict().get('imagenes', []) if img['src'] != BASE_URL_API + '/' + file_path]
+
+    imagenes = [
+        img for img in Producto.to_dict().get('imagenes', [])
+        if filename not in img['src']
+    ]
+    
     Producto_ref.update({'imagenes': imagenes})
 
     return JSONResponse(content={"message": "Image deleted successfully"})
