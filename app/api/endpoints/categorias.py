@@ -4,7 +4,7 @@ from firebase import get_firestore_client
 
 router = APIRouter()
 
-@router.get('/categorias')
+@router.get('/api/categorias')
 def get_categorias():
     try:
         db = get_firestore_client()

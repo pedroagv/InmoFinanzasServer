@@ -27,19 +27,19 @@ app.include_router(archivos.router)
 
 # app = Flask(__name__)
 
-@app.get('/')
-def hello_world():
-    # Obtener la hora actual
-    now = datetime.now()
-    current_time = now.strftime("%H:%M:%S")  # Formato HH:MM:SS
+# @app.get('/')
+# def hello_world():
+#     # Obtener la hora actual
+#     now = datetime.now()
+#     current_time = now.strftime("%H:%M:%S")  # Formato HH:MM:SS
     
-    # Saludo que quieres retornar
-    greeting = '¡Api InmofinanzasAGV en Python! '
+#     # Saludo que quieres retornar
+#     greeting = '¡Api InmofinanzasAGV en Python! '
     
-    # Concatenar el saludo con la hora actual
-    message = greeting + 'La hora actual es ' + current_time
+#     # Concatenar el saludo con la hora actual
+#     message = greeting + 'La hora actual es ' + current_time
     
-    return message
+#     return message
 
 # @app.get("/uploads/{folder}/{filename}")
 # async def get_image(folder: str, filename: str):
