@@ -5,7 +5,7 @@ import qrcode
 from io import BytesIO
 from PIL import Image
 import base64
-from app.api.endpoints import productos, categorias,archivos
+from app.api.endpoints import productos, categorias,archivos, formularios
 
 app = FastAPI()
 
@@ -22,6 +22,7 @@ app.add_middleware(
 app.include_router(productos.router)
 app.include_router(categorias.router)
 app.include_router(archivos.router)
+app.include_router(formularios.router)
 
 class QRData(BaseModel):
     data: str
